@@ -12,42 +12,13 @@
 
 *DSH 0.2.2-rc.3 中的真实界面，使用示例对话；图片展示当前源码版本。*
 
-## 当前版本与安装
+## 安装
 
-**当前源码为 0.1.3，尚未发布 npm。** 现在按包名搜索安装还拿不到这个插件，请使用下面的本地包方式。
+把下面这句话发给能操作你电脑的 AI 助手：
 
-支持 DSH **0.2.1-rc.3、0.2.2-rc.3**。先确认 DSH 能正常聊天；使用 DSH 0.2.2-rc.3 的 CLI 时，Node.js 须为 **24.9.0 或更新的 24 系列版本**。只有需要 `ask_user_choice` 选择卡时，才需另外安装 [`@machine202502/dsh-choice@0.1.2`](https://www.npmjs.com/package/@machine202502/dsh-choice)。
+> 请帮我安装这个 DSH 插件，检查兼容性并确认已启用：https://github.com/Ryuu-64/dsh-answered-questions
 
-以下源码安装需要 Git、npm，以及命令行中可用的 `dsh` 和 `pnpm`。
-
-1. 克隆仓库，在仓库目录安装依赖并构建：
-
-   ```sh
-   git clone https://github.com/Ryuu-64/dsh-answered-questions.git
-   cd dsh-answered-questions
-   npm ci --ignore-scripts --legacy-peer-deps
-   npm run build
-   ```
-
-2. 在仓库外新建一个输出目录，再把下面的路径替换为它的绝对路径：
-
-   ```sh
-   npm pack --pack-destination "<仓库外的输出目录>"
-   ```
-
-3. 安装生成的 `.tgz`。以下命令用于 DSH Web 的 `web` 配置档；路径替换为上一步实际生成的文件：
-
-   ```sh
-   dsh plugin --profile web add "<输出目录>/ryuu-64-dsh-answered-questions-0.1.3.tgz"
-   ```
-
-4. 保留这个 `.tgz` 文件，配置档会引用它。重启该 DSH 服务并刷新页面，在「插件」中确认“问答回看”已启用。桌面版请使用该版本提供的插件安装入口，不套用 `web` 配置档。
-
-### 更新
-
-本地包更新时，重新构建、打包并安装新的 `.tgz`，然后重启。它不会收到 npm 更新提示。
-
-以后发布到 npm 的版本，在 DSH 0.2.2-rc.3 的「插件」→「问答回看」→「版本」中统一检查和安装更新。如果宿主未提供这个版本区块，请重新安装兼容版本。详见 [DSH 原生更新说明](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.3/packages/client/ui-plugin-manager/README.zh.md#更新组合包)。
+支持 **DSH 0.2.1-rc.3、0.2.2-rc.3**。当前 **0.1.3** 需从源码安装，尚未发布 npm。
 
 ## 第一次使用
 
@@ -59,7 +30,7 @@
 2. 回到聊天，查看保留下来的完整卡片：两项已勾选，其他选项仍可读，补充文字保持原样。
 3. 刷新页面或重新打开这段聊天，仍可回看答案；较早的内容需要先加载历史。一次有多道题时，用卡片底部的箭头翻页。
 
-使用 `dsh-choice` 时，直接点选择卡上的选项发送答案，提交后保留全部选项和原先的选择：
+需要选择卡时，另装 [`@machine202502/dsh-choice@0.1.2`](https://www.npmjs.com/package/@machine202502/dsh-choice)。直接点卡片上的选项发送答案，提交后保留全部选项和原先的选择：
 
 ![完整 DSH 聊天界面中的选择卡回看：全部路线保留，选中的路线突出显示](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
 
