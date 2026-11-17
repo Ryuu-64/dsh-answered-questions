@@ -1,24 +1,26 @@
-# dsh-answered-questions · 问答回看
+# dsh-answered-questions · Answered Questions for DeepSeek Harness
 
-让 **DeepSeek Harness（DSH）** 在你回答后，仍把问题、全部选项和你的答案留在聊天里。过一会儿再看，也能知道当时选了什么、还有哪些选项。
+English | [简体中文](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/README.zh-CN.md)
 
-## 看看效果
+Keep the question, every option, and your answer visible in **DeepSeek Harness (DSH)** after you reply. Return to a conversation later and see what you chose, along with the alternatives.
 
-多选题回答后，选中项保留勾选，未选项和补充文字也一起留下。卡片沿用 DSH 的原生样式。
+## See it in action
 
-![完整 DSH 聊天界面中的多选回看：保留勾选项、未选项和补充文字](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-multi-select-desktop.png)
+After you answer a multiple-choice question, the card keeps your selections, the unselected options, and any extra text you entered. It uses DSH's native styling.
 
-*DSH 0.2.2-rc.3 中的真实界面，使用示例对话；图片展示当前源码版本。*
+![Full DSH chat showing an answered multiple-choice question with selected and unselected options and an additional written answer](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-multi-select-desktop.png)
 
-## 当前版本与安装
+*Recorded in DSH 0.2.2-rc.3 with an example conversation and the current source version. The interface is in Simplified Chinese.*
 
-**当前源码为 0.1.3，尚未发布 npm。** 现在按包名搜索安装还拿不到这个插件，请使用下面的本地包方式。
+## Version and installation
 
-支持 DSH **0.2.1-rc.3、0.2.2-rc.3**。先确认 DSH 能正常聊天；使用 DSH 0.2.2-rc.3 的 CLI 时，Node.js 须为 **24.9.0 或更新的 24 系列版本**。只有需要 `ask_user_choice` 选择卡时，才需另外安装 [`@machine202502/dsh-choice@0.1.2`](https://www.npmjs.com/package/@machine202502/dsh-choice)。
+**The current source version is 0.1.3. It has not been published to npm.** Install a local package using the steps below; installing by package name is not available yet.
 
-以下源码安装需要 Git、npm，以及命令行中可用的 `dsh` 和 `pnpm`。
+Supported DSH versions: **0.2.1-rc.3 and 0.2.2-rc.3**. Start with a working DSH chat setup. The DSH 0.2.2-rc.3 CLI requires **Node.js 24.9.0 or a later 24.x release**. Install [`@machine202502/dsh-choice@0.1.2`](https://www.npmjs.com/package/@machine202502/dsh-choice) separately only if you want to use `ask_user_choice` cards.
 
-1. 克隆仓库，在仓库目录安装依赖并构建：
+To install from source, you need Git, npm, and the `dsh` and `pnpm` commands available in your terminal.
+
+1. Clone the repository, install its dependencies, and build:
 
    ```sh
    git clone https://github.com/Ryuu-64/dsh-answered-questions.git
@@ -27,64 +29,64 @@
    npm run build
    ```
 
-2. 在仓库外新建一个输出目录，再把下面的路径替换为它的绝对路径：
+2. Create an output directory outside the repository. Replace the placeholder below with its absolute path:
 
    ```sh
-   npm pack --pack-destination "<仓库外的输出目录>"
+   npm pack --pack-destination "<output-directory-outside-repository>"
    ```
 
-3. 安装生成的 `.tgz`。以下命令用于 DSH Web 的 `web` 配置档；路径替换为上一步实际生成的文件：
+3. Install the generated `.tgz` file. This command targets the `web` profile used by DSH Web; replace the path with the file created in the previous step:
 
    ```sh
-   dsh plugin --profile web add "<输出目录>/ryuu-64-dsh-answered-questions-0.1.3.tgz"
+   dsh plugin --profile web add "<output-directory>/ryuu-64-dsh-answered-questions-0.1.3.tgz"
    ```
 
-4. 重启该 DSH 服务并刷新页面，在「插件」中确认“问答回看”已启用。桌面版请使用该版本提供的插件安装入口，不套用 `web` 配置档。
+4. Keep the `.tgz` file because the profile references it. Restart that DSH service, refresh the page, and confirm **Answered Questions** is enabled under **Plugins**. For the desktop app, use the plugin installation entry provided by that version instead of the `web` profile.
 
-### 更新
+### Updates
 
-本地包更新时，重新构建、打包并安装新的 `.tgz`，然后重启。它不会收到 npm 更新提示。
+To update a local package, build and pack the new source, install the new `.tgz`, and restart DSH. Local packages do not receive npm update notifications.
 
-以后发布到 npm 的版本，在 DSH 0.2.2-rc.3 的「插件」→「问答回看」→「版本」中统一检查和安装更新。旧宿主没有这个版本区块，需重新安装兼容版本。详见 [DSH 原生更新说明](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.3/packages/client/ui-plugin-manager/README.zh.md#更新组合包)。
+Once the plugin is published to npm, npm installations can use **Plugins → Answered Questions → Versions** in DSH 0.2.2-rc.3 to check for and install updates. If your host does not offer this section, reinstall a compatible version manually. See the [DSH update documentation](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.3/packages/client/ui-plugin-manager/README.md#updating-a-bundle).
 
-## 第一次使用
+## Try it
 
-在聊天中请助手用原生提问工具给你一道多选题，例如：
+Ask the assistant to use the native question tool, for example:
 
-> 请用 ask_user_question 问我这次想带哪些水果，允许多选，并让我补充其他要带的东西。
+> Use ask_user_question to ask which fruits I want to bring. Let me select more than one and add anything else I want to bring.
 
-1. 在 DSH 提问面板勾选两项，填写补充文字，然后提交。
-2. 回到聊天，查看保留下来的完整卡片：两项已勾选，其他选项仍可读，补充文字保持原样。
-3. 刷新页面或重新打开这段聊天，仍可回看答案；较早的内容需要先加载历史。一次有多道题时，用卡片底部的箭头翻页。
+1. Select two options in DSH's question panel, add a written answer, and submit.
+2. Return to the chat. The complete card keeps both selections, the other options, and your text.
+3. Refresh or reopen the conversation to review your answer again. Load earlier history if the question is not yet visible. When a request contains several questions, use the arrows at the bottom of the card to move between them.
 
-使用 `dsh-choice` 时，直接点选择卡上的选项发送答案，提交后保留全部选项和原先的选择：
+With `dsh-choice`, click an option on the choice card to send your answer. After submission, all options remain visible and your selection stays marked:
 
-![完整 DSH 聊天界面中的选择卡回看：全部路线保留，选中的路线突出显示](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
+![Full DSH chat showing a choice card with all routes preserved and the selected riverside route highlighted](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
 
-*选择卡由 dsh-choice 提供；问答回看负责保留和恢复通过本插件提交的选择。*
+*Shown with the interface in Simplified Chinese. The choice card comes from dsh-choice; Answered Questions preserves and restores selections submitted through this plugin.*
 
-## 常用操作与限制
+## What stays visible
 
-| 提问方式 | 回看时能看到什么 |
+| Question type | What you can review |
 | --- | --- |
-| 原生单选 | 问题、全部选项及选中项，或填写的答案 |
-| 原生多选 | 问题、全部选项、勾选状态及补充文字 |
-| 自由填写或跳过 | 填写原文，或明确的“未作答”状态 |
-| `dsh-choice` 选择卡 | 文字、图片或音频选项，以及选中项或“都不选” |
+| Native single choice | The question, all options, and the selected option or written answer |
+| Native multiple choice | The question, all options, checked selections, and extra text |
+| Free text or skipped question | The original text or an explicit unanswered state |
+| `dsh-choice` card | Text, image, or audio options, plus the selected option or “none of these” |
 
-启用后自动工作，不需要额外配置。图片可打开查看，音频可手动播放。
+The plugin works automatically when enabled and needs no extra configuration. Open images to view them, or play audio manually.
 
-- **已有原生问答可以回看**，前提是 DSH 保存了完整题目和结果。缺失记录不会被补写成看似真实的答案。
-- **旧选择卡的答案无法自动补认**：没有题目关联的旧文字不会被猜成一次选择。重新选择会发送新答案。
-- **“已提交，等待处理”还不是“已回答”**。答案进入聊天记录后才显示已回答；从队列移除尚未处理的答案后，可以重新选择。
-- **只读取当前 DSH 连接内的记录**，不调用外部模型处理答案。远程图片或音频失效后，选择记录仍保留，媒体本身可能无法打开。
+- **Existing native questions can be reviewed** if DSH saved the complete question and result. Missing records are not filled with invented answers.
+- **Old choice-card answers cannot be recovered automatically.** Earlier text without a link to its question is not treated as a recorded selection. Choosing again sends a new answer.
+- **Submitted and queued does not mean answered.** The card shows an answer only after it enters the conversation history. If you remove a pending answer from the queue, you can choose again.
+- **The plugin reads records from the current DSH connection** and does not send answers to an external model for processing. If a remote image or audio file becomes unavailable, the choice record remains, but the media may no longer open.
 
-DSH 0.2.2-rc.3 已有简短答案气泡；完整回看卡片可用时，插件会隐藏对应气泡，避免重复显示。
+DSH 0.2.2-rc.3 also has short answer bubbles. When a complete review card is available, the plugin hides the corresponding bubble to avoid showing the answer twice.
 
-## 反馈与详细说明
+## Feedback and further reading
 
-遇到问题请到 [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues) 反馈，附上 DSH 版本、提问方式和复现步骤。请勿公开密钥或私密对话。
+Report problems in [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues), including your DSH version, question type, and steps to reproduce. Leave out secrets and private conversations.
 
-- [兼容范围与历史记录边界](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
-- 开发时运行 `npm run build` 和 `npm run check`；浏览器回归入口为 [`scripts/e2e.mjs`](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/scripts/e2e.mjs)。
-- [作者与致谢](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT 许可证](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)
+- [Compatibility and history limits (Chinese)](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
+- For development, run `npm run build` and `npm run check`. Browser regression tests are in [`scripts/e2e.mjs`](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/scripts/e2e.mjs).
+- [Acknowledgments](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT license](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)
