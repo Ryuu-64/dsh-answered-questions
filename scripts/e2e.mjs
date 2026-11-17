@@ -7,6 +7,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { startFixtureModel } from './fixture-model.mjs';
+import { checkNativeParity } from './native-parity.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const args = Object.fromEntries(process.argv.slice(2).reduce((all, value, index, input) => index % 2 ? all : [...all, [value.replace(/^--/, ''), input[index + 1]]], []));
 assert.ok(args.runtime && args.playwright, '--runtime and --playwright are required');
@@ -83,7 +84,9 @@ try {
   }
   await fs.writeFile(path.join(run, 'initial.txt'), await page.locator('body').innerText());
   await page.screenshot({ path: path.join(run, 'initial.png') });
-  if (args.mode === 'inspect') {
+  if (args.mode === 'parity') {
+    await checkNativeParity({ page, run, report });
+  } else if (args.mode === 'inspect') {
     console.log(JSON.stringify({ run: report.run, version, body: (await page.locator('body').innerText()).slice(-1800) }));
   } else {
     const send = async mode => {
@@ -98,11 +101,15 @@ try {
       const expectedOptions = { single: 3, multi: 3, free: 2, skip: 2 }[mode];
       assert.equal(await card.locator('.aq-option').count(), expectedOptions, 'all original options stay visible');
       assert.equal(await card.locator('.aq-option[data-selected="true"]').count(), selected);
-      if (custom) assert.ok((await card.innerText()).includes(custom));
+      if (custom) {
+        assert.equal(await card.getByRole('textbox').inputValue(), custom);
+        assert.equal(await card.getByRole('textbox').isDisabled(), true);
+      }
       const before = await card.innerText();
       await page.reload();
       await card.waitFor();
       assert.equal(await card.innerText(), before);
+      if (custom) assert.equal(await card.getByRole('textbox').inputValue(), custom);
       await card.screenshot({ path: path.join(run, `${mode}.png`) });
       report.scenarios.push({ id: `AQ-${mode}`, status: 'pass', allOptions: expectedOptions, selected, custom: Boolean(custom), refresh: true, evidence: `${mode}.png` });
     };

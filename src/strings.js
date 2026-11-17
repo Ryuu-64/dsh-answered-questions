@@ -1,6 +1,7 @@
 export const zh = {
   answered: '已回答', choose: '请选择', recommended: '推荐', custom: '自由填写',
   skipped: '这道问题当时被跳过。', previous: '上一题', next: '下一题',
+  expandText: '展开', collapseText: '收起',
   copyCode: '复制代码', copiedCode: '已复制', codeBlock: '代码块',
   wrapCode: '自动换行', unwrapCode: '关闭自动换行', footnotes: '脚注',
   checking: '正在读取选择记录…', saving: '正在提交…', queued: '已提交，等待处理',
@@ -11,6 +12,7 @@ export const zh = {
 export const en = {
   answered: 'Answered', choose: 'Choose an option', recommended: 'Recommended', custom: 'Written answer',
   skipped: 'This question was skipped.', previous: 'Previous question', next: 'Next question',
+  expandText: 'Expand', collapseText: 'Collapse',
   copyCode: 'Copy code', copiedCode: 'Copied', codeBlock: 'Code block',
   wrapCode: 'Wrap lines', unwrapCode: 'Unwrap lines', footnotes: 'Footnotes',
   checking: 'Loading your selection…', saving: 'Submitting…', queued: 'Submitted, awaiting processing',

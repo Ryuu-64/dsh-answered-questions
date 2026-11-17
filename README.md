@@ -25,7 +25,7 @@
 
 ## 当前版本
 
-包名：`@ryuu-64/dsh-answered-questions`。当前为 `0.1.2` 源码版本，尚未发布 npm。
+包名：`@ryuu-64/dsh-answered-questions`。当前为 `0.1.3` 源码版本，尚未发布 npm。
 
 兼容目标为 DSH **`0.2.1-rc.3`、`0.2.2-rc.3`**，选择卡适配 **`dsh-choice 0.1.2`**。
 实测范围和限制见[兼容说明](docs/compatibility.md)及[测试记录](docs/test-report.md)。

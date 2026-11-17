@@ -1,5 +1,5 @@
-/* Inline read-only presentation of DSH NEXT's QuestionComposer (0.2.1-rc.3).
-   The chat column already supplies the composer's horizontal gutters. */
+/* DSH QuestionComposer's read-only presentation: 0.2.1 typography, with
+   0.2.2's scrollable question title and expandable long copy. */
 .aq-card {
   width: 100%;
   max-width: var(--dsh-chat-content-width);
@@ -31,6 +31,7 @@
 .aq-eyebrow { margin-bottom: 5px; color: var(--dsw-alias-label-tertiary); font-size: 11px; line-height: 16px; }
 .aq-title { margin: 0; font-size: 16px; line-height: 22px; font-weight: 500; white-space: pre-wrap; }
 .aq-meta {
+  margin-left: auto;
   flex-shrink: 0;
   color: var(--dsw-alias-label-secondary);
   font-size: 12px;
@@ -45,7 +46,38 @@
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.aq-detail { margin: 0 2px 8px; overflow-wrap: anywhere; }
+.aq-question-title { position: relative; flex-shrink: 0; margin: 5px 24px 0; timeline-scope: --aq-question-copy; }
+.aq-question-title[data-expanded] { padding-bottom: 24px; }
+.aq-title-preview {
+  max-height: calc(3lh + 2px);
+  margin: 0 0 -2px;
+  padding-bottom: 2px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  scroll-timeline: --aq-question-copy block;
+  animation-name: aq-question-clipped;
+  animation-fill-mode: both;
+  animation-timeline: --aq-question-copy;
+}
+@keyframes aq-question-clipped {
+  from, to {
+    margin-bottom: calc(-1lh - 2px);
+    clip-path: inset(0 0 calc(1lh + 2px) 0);
+    mask-image: linear-gradient(#000, #000), linear-gradient(to right, #000 calc(100% - 56px), transparent calc(100% - 28px));
+    mask-size: 100% 1lh, 100% 1lh;
+    mask-position: 0 0, 0 1lh;
+    mask-repeat: no-repeat;
+  }
+}
+.aq-question-toggle {
+  position: absolute;
+  right: -4px;
+  bottom: -1px;
+  animation-name: aq-copy-toggle-shown;
+  animation-fill-mode: both;
+  animation-timeline: --aq-question-copy;
+}
+.aq-detail { flex-shrink: 0; margin: 0 24px 8px; overflow-wrap: anywhere; }
 .aq-options {
   display: flex;
   flex-direction: column;
@@ -73,6 +105,10 @@
   background: var(--dsw-alias-interactive-bg-hover);
   border-color: var(--dsw-alias-border-l2);
 }
+.aq-option-row { position: relative; width: 100%; min-height: 40px; flex-shrink: 0; border: 1px solid transparent; border-radius: var(--dsw-radius-md); timeline-scope: --aq-description-copy; }
+.aq-option-row > .aq-option { min-width: 0; border: 0; }
+.aq-option-row > .aq-option[data-selected="true"] { background: transparent; }
+.aq-option-row-selected { background: var(--dsw-alias-interactive-bg-hover); border-color: var(--dsw-alias-border-l2); }
 .aq-number, .aq-checkbox {
   display: grid;
   flex: 0 0 20px;
@@ -103,11 +139,47 @@
   border-color: var(--dsw-alias-label-primary);
   background: var(--dsw-alias-label-primary);
 }
-.aq-option-copy, .aq-custom { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.aq-option-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; }
+.aq-option-copy { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.aq-native-copy { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.aq-option-line { display: flex; max-width: 100%; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; }
 .aq-label, .aq-description, .aq-custom, .aq-review-note { font-family: inherit; font-size: 14px; line-height: 24px; }
 .aq-label { font-weight: 500; }
 .aq-description { margin: 0; font-weight: 400; color: var(--dsw-alias-label-tertiary); }
+.aq-description-preview {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  max-height: calc(2lh + 2px);
+  margin-bottom: -2px;
+  padding-bottom: 2px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  scroll-timeline: --aq-description-copy block;
+  animation-name: aq-description-clipped;
+  animation-fill-mode: both;
+  animation-timeline: --aq-description-copy;
+}
+@keyframes aq-description-clipped {
+  from, to {
+    margin-bottom: calc(-1lh - 2px);
+    clip-path: inset(0 0 calc(1lh + 2px) 0);
+    mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent calc(100% - 28px));
+    mask-size: 100% 1lh;
+    mask-repeat: no-repeat;
+  }
+}
+.aq-description-toggle { position: absolute; right: 8px; bottom: 6px; animation-name: aq-copy-toggle-shown; animation-fill-mode: both; animation-timeline: --aq-description-copy; }
+.aq-option-row[data-expanded] .aq-option { padding-bottom: 32px; }
+.aq-question-title[data-expanded] .aq-title-preview, .aq-option-row[data-expanded] .aq-description-preview { max-height: none; animation: none; }
+.aq-copy-toggle { visibility: hidden; }
+@keyframes aq-copy-toggle-shown { from, to { visibility: visible; } }
+.aq-question-title[data-expanded] .aq-copy-toggle, .aq-option-row[data-expanded] .aq-copy-toggle { visibility: visible; animation: none; }
+@supports not (animation-timeline: scroll()) {
+  .aq-title-preview, .aq-description-preview { max-height: none; animation: none; }
+  .aq-copy-toggle { display: none; }
+}
 .aq-recommendation {
   padding: 0 4px;
   border-radius: var(--dsw-radius-xs);
@@ -117,12 +189,26 @@
   line-height: 18px;
   font-weight: 600;
 }
-.aq-custom { white-space: pre-wrap; }
+.aq-field { display: grid; min-width: 0; --dsh-answer-field-padding: 0; }
+.aq-field > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+  padding: var(--dsh-answer-field-padding);
+  font: inherit;
+  font-size: 14px;
+  line-height: 24px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.aq-field-mirror { box-sizing: content-box; max-height: 144px; overflow: hidden; visibility: hidden; }
+.aq-field-input { resize: none; overflow-y: auto; border: none; outline: none; background: transparent; color: var(--dsw-alias-label-primary); caret-color: var(--dsw-alias-state-business-primary); }
+.aq-custom-inline { flex: 1; }
 .aq-custom-block {
   flex-shrink: 0;
   min-height: 64px;
   margin: 0 12px;
-  padding: 8px 12px;
+  --dsh-answer-field-padding: 8px 12px;
   border: .5px solid var(--dsw-alias-border-l4);
   border-radius: var(--dsw-radius-lg);
   background: var(--dsw-alias-bg-module-platform);
@@ -160,5 +246,6 @@ audio.aq-media { width: 100%; }
   .aq-title { font-size: 15px; line-height: 21px; }
   .aq-options { padding: 4px 8px; }
   .aq-option, .aq-custom-row { padding: 8px 6px; }
+  .aq-description-toggle { right: 2px; }
   .aq-footer { padding: 0 10px; }
 }

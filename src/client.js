@@ -33,7 +33,7 @@ function StockReplyView(props) {
   const nodes = props.useChat(snapshot => snapshot.nodes);
   const source = nodes.source(nodeKey(NATIVE_DEFINITION_KIND, data.callId));
   const fullNode = React.useSyncExternalStore(source.subscribe, source.getSnapshot, source.getSnapshot);
-  const questions = parseNativeQuestions(data.text);
+  const questions = parseNativeQuestions(data.text, { source: 'service' });
   const answers = questions && parseNativeAnswers(data.text, questions);
   if (fullNode?.visibility === 'visible') return null;
   if (questions && answers) return h(NativeView, { node: { data: { ...data, questions, answers } }, t });

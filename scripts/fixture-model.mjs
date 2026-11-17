@@ -2,6 +2,20 @@
 import http from 'node:http';
 
 export const scenarios = {
+  longdescription: { name: 'ask_user_question', arguments: { questions: [{ id: 'longdescription', question: '长选项说明可以展开查看', multi_select: true, options: [
+    { label: '甲', description: '这是原生选项说明，应完整保留而且不会占满卡片。'.repeat(32) }, { label: '乙' },
+  ] }] } },
+  longheading: { name: 'ask_user_question', arguments: { questions: [
+    { id: 'longheading', header: '长题目', question: '这是需要完整保留并可展开查看的长题目。'.repeat(32), options: [{ label: '继续（推荐）' }, { label: '稍后' }] },
+    { id: 'shortheading', question: '下一题从顶部开始显示', options: [{ label: '确定（推荐）' }, { label: '返回' }] },
+  ] } },
+  extensions: { name: 'ask_user_question', arguments: { questions: [{ id: 'extensions', question: '工具忽略的扩展字段不能改变回看', multiSelect: true, intent: { kind: 'unknown-extension' }, detail: '原生工具没有转发的说明', options: [{ label: '甲' }, { label: '乙' }] }] } },
+  conflicting: { name: 'ask_user_question', arguments: { questions: [{ id: 'conflicting', question: '原生多选字段优先', multi_select: true, multiSelect: false, options: [{ label: '甲' }, { label: '乙' }] }] } },
+  formatting: { name: 'ask_user_question', arguments: { questions: [{ id: 'formatting', header: '格式回看', question: '这是 **加粗**、`代码` 和 <b>标签</b> 的题目', detail: '说明里的 **加粗** 和 `代码`。\n\n- 第一项\n- 第二项\n\n<script>window.aqInjected = true</script>', options: [
+    { label: '方案 **甲**（推荐）', description: '保留 `代码` 和 <b>原文</b>' }, { label: '方案乙' },
+  ] }] } },
+  longinline: { name: 'ask_user_question', arguments: { questions: [{ id: 'inline', question: '选一项，或者填写长篇答案', options: [{ label: '选项一' }, { label: '选项二' }] }] } },
+  longblock: { name: 'ask_user_question', arguments: { questions: [{ id: 'block', question: '请直接填写长篇答案' }] } },
   single: { name: 'ask_user_question', arguments: { questions: [{ id: 'role', header: '单选', question: '你希望先体验哪个角色？', multi_select: false, options: [
     { label: '产品经理', description: '做方案、开会、推进项目。' },
     { label: '设计师', description: '设计页面和交互。' },
@@ -44,9 +58,10 @@ export function startFixtureModel(port = 45271) {
       for await (const part of req) chunks.push(part);
       const input = JSON.parse(Buffer.concat(chunks));
       const messages = input.messages ?? [];
-      const userIndex = messages.findLastIndex(message => message.role === 'user' && /AQ_TEST_(single|multi|free|skip|batch|choice)/.test(JSON.stringify(message.content)));
+      const marker = /AQ_TEST_([a-z]+)/;
+      const userIndex = messages.findLastIndex(message => message.role === 'user' && scenarios[marker.exec(JSON.stringify(message.content))?.[1]]);
       const text = JSON.stringify(messages[userIndex]?.content) ?? '';
-      const mode = /AQ_TEST_(single|multi|free|skip|batch|choice)/.exec(text)?.[1];
+      const mode = marker.exec(text)?.[1];
       const scenario = scenarios[mode];
       const asked = messages.slice(userIndex + 1).some(message => message.tool_calls?.some(call => call.function?.name === scenario?.name));
       const available = input.tools?.some(tool => tool.function?.name === scenario?.name);
