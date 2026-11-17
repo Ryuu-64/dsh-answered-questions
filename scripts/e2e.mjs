@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { tmpdir } from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { startFixtureModel } from './fixture-model.mjs';
 import { checkNativeParity } from './native-parity.mjs';
@@ -14,8 +15,9 @@ assert.ok(args.runtime && args.playwright, '--runtime and --playwright are requi
 const runtime = path.resolve(args.runtime);
 const { chromium } = await import(pathToFileURL(path.resolve(args.playwright)));
 const version = JSON.parse(await fs.readFile(path.join(runtime, 'node_modules/@deepseek-ai/dsh/package.json'))).version;
-await fs.mkdir(path.join(root, '.qa'), { recursive: true });
-const run = await fs.mkdtemp(path.join(root, '.qa', `${version}-`));
+const artifacts = path.join(tmpdir(), 'dsh-answered-questions-qa');
+await fs.mkdir(artifacts, { recursive: true });
+const run = await fs.mkdtemp(path.join(artifacts, `${version}-`));
 const home = path.join(run, 'home');
 const workspace = path.join(run, 'workspace');
 const profile = path.join(home, 'profiles/web');
@@ -42,7 +44,7 @@ function startDsh() {
   return child;
 }
 let server = startDsh();
-const report = { version, node: process.version, run: path.relative(root, run), pluginSha256: createHash('sha256').update(await fs.readFile(path.join(installed, 'lib/client.js'))).digest('hex'), origin: `http://127.0.0.1:${webPort}`, authorization: 'repair-authorized', isolation: 'ephemeral Playwright context and empty DSH profile', viewports: [{ width: 1280, height: 900 }], capabilities: { input: 'supported', screenshot: 'supported', dom: 'supported', console: 'supported', network: 'supported', accessibility: 'unknown', trace: 'unsupported', performance: 'unknown' }, scenarios: [], errors: [] };
+const report = { version, node: process.version, run, pluginSha256: createHash('sha256').update(await fs.readFile(path.join(installed, 'lib/client.js'))).digest('hex'), origin: `http://127.0.0.1:${webPort}`, authorization: 'repair-authorized', isolation: 'ephemeral Playwright context and empty DSH profile', viewports: [{ width: 1280, height: 900 }], capabilities: { input: 'supported', screenshot: 'supported', dom: 'supported', console: 'supported', network: 'supported', accessibility: 'unknown', trace: 'unsupported', performance: 'unknown' }, scenarios: [], errors: [] };
 report.hostFiles = {};
 for (const file of (await fs.readdir(path.join(installed, 'lib'))).filter(name => name.endsWith('.js') && name !== 'client.js')) report.hostFiles[file] = createHash('sha256').update(await fs.readFile(path.join(installed, 'lib', file))).digest('hex');
 let browser, page;
