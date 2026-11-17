@@ -10,15 +10,13 @@ After you answer a multiple-choice question, the card keeps your selections, the
 
 ![Full DSH chat showing an answered multiple-choice question with selected and unselected options and an additional written answer](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-multi-select-desktop.png)
 
-*Recorded in DSH 0.2.2-rc.3 with an example conversation and the current source version. The interface is in Simplified Chinese.*
+*The full conversation view, shown in Simplified Chinese.*
 
 ## Install
 
 Ask an AI assistant that can operate your computer:
 
 > Install this plugin in my DSH setup, check compatibility, and confirm it is enabled: https://github.com/Ryuu-64/dsh-answered-questions
-
-Supports **DSH 0.2.1-rc.3 and 0.2.2-rc.3**. Version **0.1.3** is available from source and has not been published to npm.
 
 ## Try it
 
@@ -52,12 +50,9 @@ The plugin works automatically when enabled and needs no extra configuration. Op
 - **Submitted and queued does not mean answered.** The card shows an answer only after it enters the conversation history. If you remove a pending answer from the queue, you can choose again.
 - **The plugin reads records from the current DSH connection** and does not send answers to an external model for processing. If a remote image or audio file becomes unavailable, the choice record remains, but the media may no longer open.
 
-DSH 0.2.2-rc.3 also has short answer bubbles. When a complete review card is available, the plugin hides the corresponding bubble to avoid showing the answer twice.
-
 ## Feedback and further reading
 
 Report problems in [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues), including your DSH version, question type, and steps to reproduce. Leave out secrets and private conversations.
 
 - [Compatibility and history limits (Chinese)](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
-- For development, run `npm run build` and `npm run check`. Browser regression tests are in [`scripts/e2e.mjs`](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/scripts/e2e.mjs).
 - [Acknowledgments](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT license](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)

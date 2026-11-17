@@ -10,15 +10,13 @@
 
 ![完整 DSH 聊天界面中的多选回看：保留勾选项、未选项和补充文字](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-multi-select-desktop.png)
 
-*DSH 0.2.2-rc.3 中的真实界面，使用示例对话；图片展示当前源码版本。*
+*完整对话界面中的多选回看。*
 
 ## 安装
 
 把下面这句话发给能操作你电脑的 AI 助手：
 
 > 请帮我安装这个 DSH 插件，检查兼容性并确认已启用：https://github.com/Ryuu-64/dsh-answered-questions
-
-支持 **DSH 0.2.1-rc.3、0.2.2-rc.3**。当前 **0.1.3** 需从源码安装，尚未发布 npm。
 
 ## 第一次使用
 
@@ -52,12 +50,9 @@
 - **“已提交，等待处理”还不是“已回答”**。答案进入聊天记录后才显示已回答；从队列移除尚未处理的答案后，可以重新选择。
 - **只读取当前 DSH 连接内的记录**，不调用外部模型处理答案。远程图片或音频失效后，选择记录仍保留，媒体本身可能无法打开。
 
-DSH 0.2.2-rc.3 已有简短答案气泡；完整回看卡片可用时，插件会隐藏对应气泡，避免重复显示。
-
 ## 反馈与详细说明
 
 遇到问题请到 [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues) 反馈，附上 DSH 版本、提问方式和复现步骤。请勿公开密钥或私密对话。
 
 - [兼容范围与历史记录边界](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
-- 开发时运行 `npm run build` 和 `npm run check`；浏览器回归入口为 [`scripts/e2e.mjs`](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/scripts/e2e.mjs)。
 - [作者与致谢](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT 许可证](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)
