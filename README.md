@@ -54,5 +54,7 @@ The plugin works automatically when enabled and needs no extra configuration. Op
 
 Report problems in [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues), including your DSH version, question type, and steps to reproduce. Leave out secrets and private conversations.
 
+QQ group: **1129212995**.
+
 - [Compatibility and history limits (Chinese)](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
 - [Acknowledgments](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT license](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)
