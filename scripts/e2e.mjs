@@ -103,7 +103,7 @@ try {
       await page.reload();
       await card.waitFor();
       assert.equal(await card.innerText(), before);
-      await card.locator('.aq-bubble').screenshot({ path: path.join(run, `${mode}.png`) });
+      await card.screenshot({ path: path.join(run, `${mode}.png`) });
       report.scenarios.push({ id: `AQ-${mode}`, status: 'pass', allOptions: expectedOptions, selected, custom: Boolean(custom), refresh: true, evidence: `${mode}.png` });
     };
     if (args.mode !== 'choice') {
@@ -124,6 +124,18 @@ try {
     await send('skip');
     await page.getByRole('button', { name: '跳过', exact: true }).click();
     await checkNative('skip', 0);
+    await send('batch');
+    const composerCard = page.locator('[data-question-key]');
+    await composerCard.getByRole('radio', { name: '米饭', exact: true }).click();
+    await composerCard.getByRole('radio', { name: '绿茶', exact: true }).click();
+    await composerCard.getByRole('button', { name: '提交', exact: true }).click();
+    const batch = page.locator('[data-aq-native="call_aq_batch"]');
+    await batch.getByRole('radio', { name: '米饭', checked: true, disabled: true }).waitFor();
+    await batch.getByRole('button', { name: '下一题', exact: true }).click();
+    await batch.getByRole('radio', { name: '绿茶', checked: true, disabled: true }).waitFor();
+    await batch.getByRole('button', { name: '上一题', exact: true }).click();
+    await batch.getByRole('radio', { name: '米饭', checked: true, disabled: true }).waitFor();
+    report.scenarios.push({ id: 'AQ-batch', status: 'pass' });
     }
     await send('choice');
     const choice = page.locator('[data-aq-choice="call_aq_choice"]');
@@ -135,8 +147,7 @@ try {
     assert.equal(await choice.locator('.aq-option[data-selected="true"]').count(), 1);
     assert.equal(await choice.locator('.aq-option').count(), 4, 'three offered options and none choice remain');
     assert.equal(await choice.locator('[data-aq-pick]:not([disabled])').count(), 0, 'submitted card cannot be answered twice');
-    const choiceBubble = choice.locator('.aq-bubble');
-    await choiceBubble.screenshot({ path: path.join(run, 'choice.png') });
+    await choice.screenshot({ path: path.join(run, 'choice.png') });
     report.scenarios.push({ id: 'AQ-choice', status: 'pass', refresh: true, evidence: 'choice.png' });
     if (args.restart === 'true') {
       await choice.getByText('已回答', { exact: true }).waitFor();
@@ -166,15 +177,15 @@ try {
     }
     await page.setViewportSize({ width: 390, height: 844 });
     report.viewports.push({ width: 390, height: 844 });
-    await choiceBubble.scrollIntoViewIfNeeded();
-    const bounds = await choiceBubble.boundingBox();
+    await choice.scrollIntoViewIfNeeded();
+    const bounds = await choice.boundingBox();
     assert.ok(bounds.x >= 0 && bounds.x + bounds.width <= 391, 'choice fits narrow viewport');
     await page.screenshot({ path: path.join(run, 'narrow.png') });
     report.scenarios.push({ id: 'AQ-narrow', status: 'pass', evidence: 'narrow.png' });
-    const darkBackground = await choiceBubble.evaluate(element => getComputedStyle(element).backgroundColor);
+    const darkBackground = await choice.evaluate(element => getComputedStyle(element).backgroundColor);
     await page.emulateMedia({ colorScheme: 'light' });
     await page.waitForTimeout(200);
-    const lightBackground = await choiceBubble.evaluate(element => getComputedStyle(element).backgroundColor);
+    const lightBackground = await choice.evaluate(element => getComputedStyle(element).backgroundColor);
     assert.notEqual(lightBackground, darkBackground, 'card follows native light/dark theme');
     await page.screenshot({ path: path.join(run, 'light.png') });
     report.scenarios.push({ id: 'AQ-light', status: 'pass', evidence: 'light.png', darkBackground, lightBackground });

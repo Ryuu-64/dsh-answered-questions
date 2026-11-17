@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { AnswerCard, ChoiceOptions, questionText, safeMediaUrl } from '../src/cards.js';
+import { AnswerCard, ChoiceOptions, safeMediaUrl } from '../src/cards.js';
 import { zh } from '../src/strings.js';
 const t = key => zh[key];
 const record = {
@@ -17,7 +17,8 @@ test('rendering retains unselected options and captions, marks each selected opt
   assert.equal((html.match(/data-selected="true"/g) ?? []).length, 2);
   assert.equal((html.match(/data-selected="false"/g) ?? []).length, 1);
   assert.ok(html.includes('自由填写'));
-  assert.equal(html.includes('role="radio"'), false, 'read-only records are not offered as inputs');
+  assert.equal((html.match(/role="checkbox"/g) ?? []).length, 3);
+  assert.equal((html.match(/disabled=""/g) ?? []).length, 5, 'all options and both single-page controls are disabled');
 });
 
 test('free-text-only records do not claim to be a single choice', () => {
@@ -29,17 +30,20 @@ test('free-text-only records do not claim to be a single choice', () => {
   assert.ok(html.includes('&lt;script&gt;'));
 });
 
-test('copy includes the question, every option, marks, captions, and full custom answer', () => {
-  const text = questionText(record, t);
-  assert.ok(text.includes('[x] 米饭 — 热米饭'));
-  assert.ok(text.includes('[ ] 面条 — 清汤面'));
-  assert.ok(text.includes('[x] 饺子'));
-  assert.ok(text.includes('自由填写: 少放盐\n谢谢'));
+test('single choice retains native numbering and the selected radio state', () => {
+  const [question] = record.questions;
+  const html = renderToStaticMarkup(React.createElement(AnswerCard, { t, record: {
+    ...record, questions: [{ ...question, multiSelect: false }], answers: [{ id: question.id, selected: ['面条'] }],
+  } }));
+  assert.equal((html.match(/role="radio"/g) ?? []).length, 3);
+  assert.equal((html.match(/aria-checked="true"/g) ?? []).length, 1);
+  assert.ok(html.includes('aria-checked="true" aria-label="面条" disabled=""'));
+  assert.ok(html.includes('class="aq-number" aria-hidden="true">2</span>'));
 });
 
 test('skipped answers are visible while all offered choices remain unselected', () => {
   const html = renderToStaticMarkup(React.createElement(AnswerCard, { record: { ...record, answers: [{ id: 'q', selected: [] }] }, t }));
-  assert.ok(html.includes('未作答'));
+  assert.ok(html.includes('这道问题当时被跳过。'));
   assert.ok(!html.includes('data-selected="true"'));
 });
 

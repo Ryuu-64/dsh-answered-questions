@@ -2,7 +2,7 @@
 
 回答完以后，**问题、全部选项和你的答案仍然留在 DSH 聊天里**。不用重新打开提问面板，也不用靠助手复述。
 
-选中的项会打勾；没有选中的项及其说明保留显示。自由填写的内容会完整保留。界面使用 DSH 原生主题颜色、字体和选项样式，跟随深浅主题。
+回看沿用 DSH 原生提问卡的样式。单选保留编号并高亮选中项，多选显示勾选状态，所有选项、说明和自由填写的内容都可以回看。一组有多道题时，可以用卡片底部的箭头翻页。
 
 ![DSH 中的多选问答记录：两项打勾、未选项和说明保留，并显示补充文字](docs/screenshots/multi-select.png)
 
@@ -21,11 +21,11 @@
 [`@machine202502/dsh-choice`](https://www.npmjs.com/package/@machine202502/dsh-choice)
 提供；需要这种提问方式时，同时安装该插件。问答回看接管它的卡片显示与回答提交，让选择能够在聊天记录中恢复。
 
-![选择卡回答后保留全部路线，选中的路线带有勾选标记](docs/screenshots/choice.png)
+![选择卡回答后保留全部路线，并高亮选中的路线](docs/screenshots/choice.png)
 
 ## 当前版本
 
-包名：`@ryuu-64/dsh-answered-questions`。当前为 `0.1.1` 源码版本，尚未发布 npm。
+包名：`@ryuu-64/dsh-answered-questions`。当前为 `0.1.2` 源码版本，尚未发布 npm。
 
 兼容目标为 DSH **`0.2.1-rc.3`、`0.2.2-rc.3`**，选择卡适配 **`dsh-choice 0.1.2`**。
 实测范围和限制见[兼容说明](docs/compatibility.md)及[测试记录](docs/test-report.md)。

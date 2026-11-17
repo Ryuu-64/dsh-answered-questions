@@ -1,5 +1,6 @@
 import React from 'react';
-import { AnswerCard, ChoiceOptions } from './cards.js';
+import { MarkdownText } from '@deepseek-ai/dsh-client-ui-primitives';
+import { AnswerCard, ChoiceOptions, QuestionHeader } from './cards.js';
 import { zh, en } from './strings.js';
 import styles from './styles.css';
 import { createLegacyDefinition, NATIVE_DEFINITION_KIND, parseNativeQuestions, parseNativeAnswers } from '../lib/native-questions.js';
@@ -12,7 +13,18 @@ const nodeKey = (kind, id) => `${kind.length}:${kind}${id}`;
 
 export const inject = ['slots', 'uiConversation', 'locale'];
 
-function NativeView({ node, t }) { return h(AnswerCard, { record: node.data, t }); }
+function renderDetail(text, t) {
+  return h(MarkdownText, { text, labels: {
+    code: { copyLabel: t('copyCode'), copiedLabel: t('copiedCode'), toolbarLabels: {
+      codeLabel: t('codeBlock'), wrapLabel: t('wrapCode'), unwrapLabel: t('unwrapCode'),
+    } },
+    footnotes: t('footnotes'),
+  } });
+}
+
+function NativeView({ node, t }) {
+  return h(AnswerCard, { record: node.data, t, renderDetail: text => renderDetail(text, t) });
+}
 
 /** Retain the stock reply when the earlier question is outside the loaded history. */
 function StockReplyView(props) {
@@ -24,16 +36,14 @@ function StockReplyView(props) {
   const questions = parseNativeQuestions(data.text);
   const answers = questions && parseNativeAnswers(data.text, questions);
   if (fullNode?.visibility === 'visible') return null;
-  if (questions && answers) return h(AnswerCard, { record: { ...data, questions, answers }, t });
+  if (questions && answers) return h(NativeView, { node: { data: { ...data, questions, answers } }, t });
   return h('section', { className: 'aq-card', 'data-aq-native-fallback': data.callId, 'aria-label': t('answered') },
-    h('div', { className: 'aq-bubble' },
-      h('div', { className: 'aq-meta' }, t('answered')),
-      h('div', { className: 'aq-details' }, data.questions?.length ? data.questions.map(question => {
+    h('div', { className: 'aq-body' }, data.questions?.length ? data.questions.map(question => {
         const answer = data.answers?.find(item => item.id === question.id);
         return h('div', { className: 'aq-question', key: question.id },
-          h('div', { className: 'aq-heading' }, h('h3', null, question.question)),
-          h('p', { className: 'aq-empty' }, [...(answer?.selected ?? []), answer?.custom].filter(Boolean).join(', ') || t('skipped')));
-      }) : h('p', { className: 'aq-empty' }, data.text))));
+          h(QuestionHeader, { header: question.header, title: question.question, status: t('answered') }),
+          h('p', { className: 'aq-review-note' }, [...(answer?.selected ?? []), answer?.custom].filter(Boolean).join(', ') || t('skipped')));
+      }) : h('p', { className: 'aq-review-note' }, data.text)));
 }
 
 function ChoiceView({ node, sessionId, t, remoteSource, useProjection, useSession }) {
@@ -79,14 +89,11 @@ function ChoiceView({ node, sessionId, t, remoteSource, useProjection, useSessio
   }
   const stateLabel = answered ? effective.status === 'queued' ? 'queued' : 'answered'
     : unavailable || !api ? 'unavailable' : busy ? 'saving' : loading ? 'checking' : 'noRecord';
-  return h('section', { className: 'aq-card', 'data-aq-choice': data.callId, 'data-pending': !answered, 'aria-label': data.args?.title || t('choose') },
-    h('div', { className: 'aq-bubble' },
-      h('div', { className: 'aq-meta', role: 'status' }, t(stateLabel)),
-      data.args && h('div', { className: 'aq-details' },
-        h('div', { className: 'aq-heading' }, h('h3', null, data.args.title || t('choose')),
-          data.args.subtitle && h('p', { className: 'aq-description' }, data.args.subtitle)),
-        h(ChoiceOptions, { args: data.args, media: data.media, selectedIndex: effective?.selectedIndex, answered, disabled: !canChoose, onChoose: choose, t })),
-      error && h('p', { className: 'aq-notice', role: 'alert' }, t(error), ' ',
+  return h('section', { className: 'aq-card', 'data-aq-choice': data.callId, 'aria-label': data.args?.title || t('choose') },
+    h(QuestionHeader, { header: data.args?.subtitle, title: data.args?.title || t('choose'), status: t(stateLabel) }),
+    h('div', { className: 'aq-body' },
+      data.args && h(ChoiceOptions, { args: data.args, media: data.media, selectedIndex: effective?.selectedIndex, answered, disabled: !canChoose, onChoose: choose, t }),
+      error && h('p', { className: 'aq-review-note', role: 'alert' }, t(error), ' ',
         h('button', { type: 'button', className: 'aq-retry', onClick: retry }, t('retry')))));
 }
 

@@ -19,6 +19,10 @@ export const scenarios = {
   skip: { name: 'ask_user_question', arguments: { questions: [{ id: 'skip', header: '跳过', question: '今天需要安排提醒吗？', multi_select: false, options: [
     { label: '上午', description: '在上午安排。' }, { label: '下午', description: '在下午安排。' },
   ] }] } },
+  batch: { name: 'ask_user_question', arguments: { questions: [
+    { id: 'meal', question: '午餐吃什么？', multi_select: false, options: [{ label: '米饭' }, { label: '面条' }] },
+    { id: 'drink', question: '喝点什么？', multi_select: false, options: [{ label: '白水' }, { label: '绿茶' }] },
+  ] } },
   choice: { name: 'ask_user_choice', arguments: { title: '你要从哪条路进城？', subtitle: '选择一条路线继续。', options: [
     { id: 'gate', kind: 'text', title: '走正门', description: '路最短，但要经过守卫盘查。', value: 'gate' },
     { id: 'river', kind: 'text', title: '绕到河边', description: '沿河找一条隐蔽的小路。', value: 'river' },
@@ -40,9 +44,9 @@ export function startFixtureModel(port = 45271) {
       for await (const part of req) chunks.push(part);
       const input = JSON.parse(Buffer.concat(chunks));
       const messages = input.messages ?? [];
-      const userIndex = messages.findLastIndex(message => message.role === 'user' && /AQ_TEST_(single|multi|free|skip|choice)/.test(JSON.stringify(message.content)));
+      const userIndex = messages.findLastIndex(message => message.role === 'user' && /AQ_TEST_(single|multi|free|skip|batch|choice)/.test(JSON.stringify(message.content)));
       const text = JSON.stringify(messages[userIndex]?.content) ?? '';
-      const mode = /AQ_TEST_(single|multi|free|skip|choice)/.exec(text)?.[1];
+      const mode = /AQ_TEST_(single|multi|free|skip|batch|choice)/.exec(text)?.[1];
       const scenario = scenarios[mode];
       const asked = messages.slice(userIndex + 1).some(message => message.tool_calls?.some(call => call.function?.name === scenario?.name));
       const available = input.tools?.some(tool => tool.function?.name === scenario?.name);
