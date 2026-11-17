@@ -1,6 +1,6 @@
 {
   "name": "@ryuu-64/dsh-answered-questions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Keep questions, every option, and your answers visible in DeepSeek Harness conversations.",
   "type": "module",
   "license": "MIT",

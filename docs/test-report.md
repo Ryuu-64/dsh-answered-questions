@@ -33,7 +33,7 @@
 
 每个原生问题在聊天中均只有一张本插件完整卡片。最终两次运行没有捕获到浏览器页面错误或失败的 JSON RPC 响应。截图检查确认选择卡展示全部文字、选中标记和选项说明，浅色窄屏没有横向裁切。
 
-公开的合成测试截图：[多选与自由填写](screenshots/multi-select.png)、[选择卡回答后](screenshots/choice.png)、[浅色窄屏](screenshots/light-mobile.png)。
+当前版本的合成测试截图：[多选与自由填写](screenshots/multi-select.png)、[选择卡回答后](screenshots/choice.png)、[浅色窄屏](screenshots/light-mobile.png)。
 
 开发期间的实际运行发现并修复了宿主服务注册生命周期和新版本操作者身份接口两处集成问题；以上结果来自修复后的新运行。早期测试器的模型提示定位和原生 radio/checkbox 定位问题也已修正。
 

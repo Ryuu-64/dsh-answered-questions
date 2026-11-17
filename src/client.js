@@ -26,13 +26,14 @@ function StockReplyView(props) {
   if (fullNode?.visibility === 'visible') return null;
   if (questions && answers) return h(AnswerCard, { record: { ...data, questions, answers }, t });
   return h('section', { className: 'aq-card', 'data-aq-native-fallback': data.callId, 'aria-label': t('answered') },
-    h('div', { className: 'aq-meta' }, t('answered')),
-    data.questions?.length ? data.questions.map(question => {
-      const answer = data.answers?.find(item => item.id === question.id);
-      return h('div', { className: 'aq-question', key: question.id },
-        h('div', { className: 'aq-heading' }, h('h3', null, question.question)),
-        h('p', { className: 'aq-empty' }, [...(answer?.selected ?? []), answer?.custom].filter(Boolean).join(', ') || t('skipped')));
-    }) : h('p', { className: 'aq-empty' }, data.text));
+    h('div', { className: 'aq-bubble' },
+      h('div', { className: 'aq-meta' }, t('answered')),
+      h('div', { className: 'aq-details' }, data.questions?.length ? data.questions.map(question => {
+        const answer = data.answers?.find(item => item.id === question.id);
+        return h('div', { className: 'aq-question', key: question.id },
+          h('div', { className: 'aq-heading' }, h('h3', null, question.question)),
+          h('p', { className: 'aq-empty' }, [...(answer?.selected ?? []), answer?.custom].filter(Boolean).join(', ') || t('skipped')));
+      }) : h('p', { className: 'aq-empty' }, data.text))));
 }
 
 function ChoiceView({ node, sessionId, t, remoteSource, useProjection, useSession }) {
@@ -78,15 +79,15 @@ function ChoiceView({ node, sessionId, t, remoteSource, useProjection, useSessio
   }
   const stateLabel = answered ? effective.status === 'queued' ? 'queued' : 'answered'
     : unavailable || !api ? 'unavailable' : busy ? 'saving' : loading ? 'checking' : 'noRecord';
-  return h('section', { className: 'aq-card', 'data-aq-choice': data.callId, 'aria-label': data.args?.title || t('choose') },
-    h('div', { className: 'aq-meta', role: 'status' }, t(stateLabel)),
-    data.args && h(React.Fragment, null,
-      h('div', { className: 'aq-heading' }, h('h3', null, data.args.title || t('choose')),
-        data.args.subtitle && h('p', { className: 'aq-description' }, data.args.subtitle),
-        h('span', { className: 'aq-mode' }, t('single'))),
-      h(ChoiceOptions, { args: data.args, media: data.media, selectedIndex: effective?.selectedIndex, answered, disabled: !canChoose, onChoose: choose, t })),
-    error && h('p', { className: 'aq-notice', role: 'alert' }, t(error), ' ',
-      h('button', { type: 'button', className: 'aq-retry', onClick: retry }, t('retry'))));
+  return h('section', { className: 'aq-card', 'data-aq-choice': data.callId, 'data-pending': !answered, 'aria-label': data.args?.title || t('choose') },
+    h('div', { className: 'aq-bubble' },
+      h('div', { className: 'aq-meta', role: 'status' }, t(stateLabel)),
+      data.args && h('div', { className: 'aq-details' },
+        h('div', { className: 'aq-heading' }, h('h3', null, data.args.title || t('choose')),
+          data.args.subtitle && h('p', { className: 'aq-description' }, data.args.subtitle)),
+        h(ChoiceOptions, { args: data.args, media: data.media, selectedIndex: effective?.selectedIndex, answered, disabled: !canChoose, onChoose: choose, t })),
+      error && h('p', { className: 'aq-notice', role: 'alert' }, t(error), ' ',
+        h('button', { type: 'button', className: 'aq-retry', onClick: retry }, t('retry')))));
 }
 
 export function apply(ctx) {
