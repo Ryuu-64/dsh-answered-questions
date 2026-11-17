@@ -1,74 +1,90 @@
 # dsh-answered-questions · 问答回看
 
-回答完以后，**问题、全部选项和你的答案仍然留在 DSH 聊天里**。不用重新打开提问面板，也不用靠助手复述。
+让 **DeepSeek Harness（DSH）** 在你回答后，仍把问题、全部选项和你的答案留在聊天里。过一会儿再看，也能知道当时选了什么、还有哪些选项。
 
-回看沿用 DSH 原生提问卡的样式。单选保留编号并高亮选中项，多选显示勾选状态，所有选项、说明和自由填写的内容都可以回看。一组有多道题时，可以用卡片底部的箭头翻页。
+## 看看效果
 
-![DSH 中的多选问答记录：两项打勾、未选项和说明保留，并显示补充文字](docs/screenshots/multi-select.png)
+多选题回答后，选中项保留勾选，未选项和补充文字也一起留下。卡片沿用 DSH 的原生样式。
 
-## 支持什么
+![完整 DSH 聊天界面中的多选回看：保留勾选项、未选项和补充文字](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-multi-select-desktop.png)
 
-| 提问方式 | 回看内容 |
+*DSH 0.2.2-rc.3 中的真实界面，使用示例对话；图片展示当前源码版本。*
+
+## 当前版本与安装
+
+**当前源码为 0.1.3，尚未发布 npm。** 现在按包名搜索安装还拿不到这个插件，请使用下面的本地包方式。
+
+支持 DSH **0.2.1-rc.3、0.2.2-rc.3**。先确认 DSH 能正常聊天；使用 DSH 0.2.2-rc.3 的 CLI 时，Node.js 须为 **24.9.0 或更新的 24 系列版本**。只有需要 `ask_user_choice` 选择卡时，才需另外安装 [`@machine202502/dsh-choice@0.1.2`](https://www.npmjs.com/package/@machine202502/dsh-choice)。
+
+以下源码安装需要 Git、npm，以及命令行中可用的 `dsh` 和 `pnpm`。
+
+1. 克隆仓库，在仓库目录安装依赖并构建：
+
+   ```sh
+   git clone https://github.com/Ryuu-64/dsh-answered-questions.git
+   cd dsh-answered-questions
+   npm ci --ignore-scripts --legacy-peer-deps
+   npm run build
+   ```
+
+2. 在仓库外新建一个输出目录，再把下面的路径替换为它的绝对路径：
+
+   ```sh
+   npm pack --pack-destination "<仓库外的输出目录>"
+   ```
+
+3. 安装生成的 `.tgz`。以下命令用于 DSH Web 的 `web` 配置档；路径替换为上一步实际生成的文件：
+
+   ```sh
+   dsh plugin --profile web add "<输出目录>/ryuu-64-dsh-answered-questions-0.1.3.tgz"
+   ```
+
+4. 重启该 DSH 服务并刷新页面，在「插件」中确认“问答回看”已启用。桌面版请使用该版本提供的插件安装入口，不套用 `web` 配置档。
+
+### 更新
+
+本地包更新时，重新构建、打包并安装新的 `.tgz`，然后重启。它不会收到 npm 更新提示。
+
+以后发布到 npm 的版本，在 DSH 0.2.2-rc.3 的「插件」→「问答回看」→「版本」中统一检查和安装更新。旧宿主没有这个版本区块，需重新安装兼容版本。详见 [DSH 原生更新说明](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.3/packages/client/ui-plugin-manager/README.zh.md#更新组合包)。
+
+## 第一次使用
+
+在聊天中请助手用原生提问工具给你一道多选题，例如：
+
+> 请用 ask_user_question 问我这次想带哪些水果，允许多选，并让我补充其他要带的东西。
+
+1. 在 DSH 提问面板勾选两项，填写补充文字，然后提交。
+2. 回到聊天，查看保留下来的完整卡片：两项已勾选，其他选项仍可读，补充文字保持原样。
+3. 刷新页面或重新打开这段聊天，仍可回看答案；较早的内容需要先加载历史。一次有多道题时，用卡片底部的箭头翻页。
+
+使用 `dsh-choice` 时，直接点选择卡上的选项发送答案，提交后保留全部选项和原先的选择：
+
+![完整 DSH 聊天界面中的选择卡回看：全部路线保留，选中的路线突出显示](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
+
+*选择卡由 dsh-choice 提供；问答回看负责保留和恢复通过本插件提交的选择。*
+
+## 常用操作与限制
+
+| 提问方式 | 回看时能看到什么 |
 | --- | --- |
-| `ask_user_question` 单选 | 问题、所有选项、选中项，或自由填写的答案 |
-| `ask_user_question` 多选 | 问题、所有选项、全部选中项，以及补充文字 |
-| 自由填写 / 跳过 | 填写的原文，或明确的「未作答」状态 |
-| `ask_user_choice` 选择卡 | 问题、全部文字/图片/音频选项、选中项或「都不选」 |
+| 原生单选 | 问题、全部选项及选中项，或填写的答案 |
+| 原生多选 | 问题、全部选项、勾选状态及补充文字 |
+| 自由填写或跳过 | 填写原文，或明确的“未作答”状态 |
+| `dsh-choice` 选择卡 | 文字、图片或音频选项，以及选中项或“都不选” |
 
-原生问答的操作方式保持 DSH 的习惯，提交后自动显示完整记录。选择卡直接点击选项发送，提交成功后锁定，避免重复回答。图片可打开查看，音频可手动播放。
+启用后自动工作，不需要额外配置。图片可打开查看，音频可手动播放。
 
-本插件不额外注册一个提问工具。`ask_user_choice` 由
-[`@machine202502/dsh-choice`](https://www.npmjs.com/package/@machine202502/dsh-choice)
-提供；需要这种提问方式时，同时安装该插件。问答回看接管它的卡片显示与回答提交，让选择能够在聊天记录中恢复。
+- **已有原生问答可以回看**，前提是 DSH 保存了完整题目和结果。缺失记录不会被补写成看似真实的答案。
+- **旧选择卡的答案无法自动补认**：没有题目关联的旧文字不会被猜成一次选择。重新选择会发送新答案。
+- **“已提交，等待处理”还不是“已回答”**。答案进入聊天记录后才显示已回答；从队列移除尚未处理的答案后，可以重新选择。
+- **只读取当前 DSH 连接内的记录**，不调用外部模型处理答案。远程图片或音频失效后，选择记录仍保留，媒体本身可能无法打开。
 
-![选择卡回答后保留全部路线，并高亮选中的路线](docs/screenshots/choice.png)
+DSH 0.2.2-rc.3 已有简短答案气泡；完整回看卡片可用时，插件会隐藏对应气泡，避免重复显示。
 
-## 当前版本
+## 反馈与详细说明
 
-包名：`@ryuu-64/dsh-answered-questions`。当前为 `0.1.3` 源码版本，尚未发布 npm。
+遇到问题请到 [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues) 反馈，附上 DSH 版本、提问方式和复现步骤。请勿公开密钥或私密对话。
 
-兼容目标为 DSH **`0.2.1-rc.3`、`0.2.2-rc.3`**，选择卡适配 **`dsh-choice 0.1.2`**。
-实测范围和限制见[兼容说明](docs/compatibility.md)及[测试记录](docs/test-report.md)。
-
-## 安装与更新
-
-发布到 npm 后，在 DSH 的「插件」→「添加插件」输入 `@ryuu-64/dsh-answered-questions`，安装并启用。
-
-DSH `0.2.2-rc.3` 中，从 npm 安装的版本统一在「插件」→「问答回看」→「版本」检查更新。打开详情页会检查一次，也可以点「重新检查」；插件列表的「刷新」会检查各插件。出现兼容新版时，点「更新到…」，确认后由 DSH 安装，并按结果提示决定是否重启。插件不另外请求 npm，也不增加第二套更新按钮。
-
-DSH `0.2.1-rc.3` 没有这个原生版本区块，更新时在插件管理页卸载后安装明确兼容的版本。从本地目录或 `.tgz` 安装的源码测试包也不会显示 npm 更新提示，需要重新安装新的本地包。尚未发布到 npm 的提交不会通过此入口出现在其他机器上。
-
-原生流程和安装来源限制见 [DSH 插件管理文档](https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.2-rc.3/packages/client/ui-plugin-manager/README.zh.md#更新组合包)。
-
-## 记录怎样保留
-
-- **原生问答**直接从 DSH 已保存的提问和结果恢复，安装前的历史也可显示。较早的记录需要先由 DSH 加载到聊天里。
-- **选择卡**通过本插件提交后，消息来源会记录题目编号与选项位置。重新打开页面或聊天时，可恢复对应的选择。
-- **「已提交，等待处理」**表示答案还在 DSH 队列中；进入聊天记录后才显示「已回答」。从队列移除未处理的答案后，可以重新选择。
-- **旧版选择卡的历史答案**只有普通文字，没有题目编号。本插件不会猜它属于哪道题，会显示「尚无本插件记录的选择」。重新选择会发送一条新答案。
-
-原生工具失败、题目仍待回答、记录不完整时，不会伪造选中状态。插件只处理当前 DSH 连接内的记录，不调用外部模型处理你的答案。
-
-## 开发与验证
-
-Node.js 22.19+ 或 24：
-
-```sh
-npm ci --ignore-scripts --legacy-peer-deps
-npm run build
-npm run check
-npm pack
-```
-
-浏览器代码在 `src/`，构建生成并提交 `lib/client.js`。React 由 DSH 提供，不重复打包。
-Host 模块在 `lib/`，依赖 DSH 自带的服务。
-
-单元测试覆盖原生单选、多选、自定义文本、跳过、延迟回复、PTC、历史补载；选择卡测试覆盖精确关联、刷新恢复、重复提交、排队撤回和失败恢复。
-
-`scripts/e2e.mjs` 在独立 DSH Web 配置档及临时浏览器中运行真实交互，使用本地确定性模型，不调用外部 AI。运行参数和已验证环境见[测试记录](docs/test-report.md)。
-
-## 反馈
-
-请到 [GitHub Issues](https://github.com/Ryuu-64/dsh-answered-questions/issues) 反馈，附上 DSH 版本、提问方式与复现步骤。
-
-MIT · [作者与致谢](NOTICE.md)
+- [兼容范围与历史记录边界](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)
+- 开发时运行 `npm run build` 和 `npm run check`；浏览器回归入口为 [`scripts/e2e.mjs`](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/scripts/e2e.mjs)。
+- [作者与致谢](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/NOTICE.md) · [MIT 许可证](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/LICENSE)
