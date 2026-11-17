@@ -1,1 +1,1 @@
-{ "meta": { "title": "问答回看", "description": "回答后，在聊天中保留问题、全部选项和你的答案。支持单选、多选、自由填写和选择卡。", "detail": "README.zh-CN.md" } }
+{ "meta": { "title": "问答回看", "description": "在 DeepSeek Harness（DSH）中回看已回答的问题，保留全部选项、选中答案和自由填写内容，兼容 dsh-choice 选择卡。", "detail": "docs/README.zh-CN.md" } }

@@ -2,6 +2,8 @@
 
 [English](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/README.md) | 简体中文
 
+npm 包：[@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · 由 [Ryuu-64](https://github.com/Ryuu-64) 维护。
+
 让 **DeepSeek Harness（DSH）** 在你回答后，仍把问题、全部选项和你的答案留在聊天里。过一会儿再看，也能知道当时选了什么、还有哪些选项。
 
 ## 看看效果

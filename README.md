@@ -1,6 +1,8 @@
 # dsh-answered-questions · Answered Questions for DeepSeek Harness
 
-English | [简体中文](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/README.zh-CN.md)
+English | [简体中文](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/README.zh-CN.md)
+
+npm: [@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · Maintained by [Ryuu-64](https://github.com/Ryuu-64).
 
 Keep the question, every option, and your answer visible in **DeepSeek Harness (DSH)** after you reply. Return to a conversation later and see what you chose, along with the alternatives.
 
