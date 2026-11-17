@@ -28,11 +28,11 @@ Ask the assistant to use the native question tool, for example:
 2. Return to the chat. The complete card keeps both selections, the other options, and your text.
 3. Refresh or reopen the conversation to review your answer again. Load earlier history if the question is not yet visible. When a request contains several questions, use the arrows at the bottom of the card to move between them.
 
-If you also use [dsh-choice](https://github.com/machine202502/dsh-choice), Answered Questions keeps all options and your selection visible on its choice cards too:
+Compatible with [dsh-choice](https://github.com/machine202502/dsh-choice).
 
 ![Full DSH chat showing a choice card with all routes preserved and the selected riverside route highlighted](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
 
-*Shown with the interface in Simplified Chinese. The choice card comes from dsh-choice; Answered Questions preserves and restores selections submitted through this plugin.*
+*Shown with the interface in Simplified Chinese.*
 
 ## What stays visible
 

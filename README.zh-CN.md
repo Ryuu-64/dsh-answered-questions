@@ -28,11 +28,9 @@
 2. 回到聊天，查看保留下来的完整卡片：两项已勾选，其他选项仍可读，补充文字保持原样。
 3. 刷新页面或重新打开这段聊天，仍可回看答案；较早的内容需要先加载历史。一次有多道题时，用卡片底部的箭头翻页。
 
-如果你也在使用 [dsh-choice](https://github.com/machine202502/dsh-choice)，问答回看还会保留它的选择卡中的全部选项和你的选择：
+兼容 [dsh-choice](https://github.com/machine202502/dsh-choice)。
 
 ![完整 DSH 聊天界面中的选择卡回看：全部路线保留，选中的路线突出显示](https://raw.githubusercontent.com/Ryuu-64/dsh-answered-questions/main/docs/screenshots/answered-choice-desktop.png)
-
-*选择卡由 dsh-choice 提供；问答回看负责保留和恢复通过本插件提交的选择。*
 
 ## 常用操作与限制
 
