@@ -1,6 +1,6 @@
 {
   "name": "@ryuu-64/dsh-answered-questions",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Review answered questions in DeepSeek Harness (DSH): keep all options, selected answers, and free text visible, including dsh-choice cards.",
   "type": "module",
   "license": "MIT",
@@ -72,12 +72,12 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.2",
-    "@deepseek-ai/dsh-api-session-controller": "0.2.1-rc.3 || 0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-chat": "0.2.1-rc.3 || 0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-conversation": "0.2.1-rc.3 || 0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-user-questions": "0.2.1-rc.3 || 0.2.2-rc.3",
-    "@deepseek-ai/dsh-llm": "0.2.1-rc.3 || 0.2.2-rc.3",
-    "@deepseek-ai/dsh-typert-protocol": "0.2.1-rc.3 || 0.2.2-rc.3"
+    "@deepseek-ai/dsh-api-session-controller": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-chat": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-conversation": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5",
+    "@deepseek-ai/dsh-client-ui-user-questions": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5",
+    "@deepseek-ai/dsh-llm": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-rc.3 || 0.2.2-rc.3 || 0.2.2-rc.5"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "^4.0.4",
