@@ -1,7 +1,7 @@
 {
   "name": "@ryuu-64/dsh-answered-questions",
   "version": "0.1.5",
-  "description": "Review answered questions in DeepSeek Harness (DSH): keep all options, selected answers, and free text visible, including dsh-choice cards.",
+  "description": "Review answered questions in DeepSeek Harness. See every option, selected answers, and free text, including dsh-choice cards.",
   "type": "module",
   "license": "MIT",
   "author": "Ryuu-64",
@@ -28,7 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/Ryuu-64/dsh-answered-questions.git"
   },
-  "homepage": "https://github.com/Ryuu-64/dsh-answered-questions#readme",
+  "homepage": "https://ryuu-64.github.io/dsh/en/dsh-answered-questions/",
   "bugs": {
     "url": "https://github.com/Ryuu-64/dsh-answered-questions/issues"
   },
@@ -43,7 +43,9 @@
     "questions",
     "choices",
     "answers",
-    "conversation-history"
+    "conversation-history",
+    "answered-questions",
+    "dsh-choice"
   ],
   "engines": {
     "node": "^22.19.0 || ^24.0.0"

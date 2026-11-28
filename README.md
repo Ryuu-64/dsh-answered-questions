@@ -2,7 +2,7 @@
 
 English | [简体中文](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/README.zh-CN.md)
 
-npm: [@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · Maintained by [Ryuu-64](https://github.com/Ryuu-64).
+npm: [@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · Maintained by [Ryuu-64](https://github.com/Ryuu-64). · [Plugin page](https://ryuu-64.github.io/dsh/en/dsh-answered-questions/)
 
 Keep the question, every option, and your answer visible in **DeepSeek Harness (DSH)** after you reply. Return to a conversation later and see what you chose, along with the alternatives.
 
@@ -16,9 +16,19 @@ After you answer a multiple-choice question, the card keeps your selections, the
 
 ## Install
 
-Ask an AI assistant that can operate your computer:
+**Desktop**
 
-> Install this plugin in my DSH setup, check compatibility, and confirm it is enabled: https://github.com/Ryuu-64/dsh-answered-questions
+```sh
+dsh plugin --profile desktop add @ryuu-64/dsh-answered-questions
+```
+
+**Web**
+
+```sh
+dsh plugin --profile web add @ryuu-64/dsh-answered-questions
+```
+
+Supported DSH versions for this workflow: `0.2.1-rc.3`, `0.2.2-rc.3`, `0.2.2-rc.5`. See the [compatibility notes](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md) for tested hosts and limits.
 
 ## Try it
 

@@ -2,7 +2,7 @@
 
 [English](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/README.md) | 简体中文
 
-npm 包：[@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · 由 [Ryuu-64](https://github.com/Ryuu-64) 维护。
+npm 包：[@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-64/dsh-answered-questions) · 由 [Ryuu-64](https://github.com/Ryuu-64) 维护。 · [插件页面](https://ryuu-64.github.io/dsh/dsh-answered-questions/)
 
 让 **DeepSeek Harness（DSH）** 在你回答后，仍把问题、全部选项和你的答案留在聊天里。过一会儿再看，也能知道当时选了什么、还有哪些选项。
 
@@ -16,9 +16,19 @@ npm 包：[@ryuu-64/dsh-answered-questions](https://www.npmjs.com/package/@ryuu-
 
 ## 安装
 
-把下面这句话发给能操作你电脑的 AI 助手：
+**桌面版**
 
-> 请帮我安装这个 DSH 插件，检查兼容性并确认已启用：https://github.com/Ryuu-64/dsh-answered-questions
+```sh
+dsh plugin --profile desktop add @ryuu-64/dsh-answered-questions
+```
+
+**Web 版**
+
+```sh
+dsh plugin --profile web add @ryuu-64/dsh-answered-questions
+```
+
+这套操作适用 DSH `0.2.1-rc.3`、`0.2.2-rc.3`、`0.2.2-rc.5`。各版本的实测环境和限制见[兼容说明](https://github.com/Ryuu-64/dsh-answered-questions/blob/main/docs/compatibility.md)。
 
 ## 第一次使用
 
